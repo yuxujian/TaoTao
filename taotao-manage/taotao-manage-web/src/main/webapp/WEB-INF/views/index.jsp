@@ -43,6 +43,7 @@
 $(function(){
 	$('#menu').tree({
 		onClick: function(node){
+			//判断点击的是否为叶子节点
 			if($('#menu').tree("isLeaf",node.target)){
 				var tabs = $("#tabs");
 				var tab = tabs.tabs("getTab",node.text);

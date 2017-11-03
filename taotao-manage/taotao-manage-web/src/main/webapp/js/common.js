@@ -97,6 +97,8 @@ var TT = TAOTAO = {
     
     // 初始化选择类目组件
     initItemCat : function(data){
+    	//i: index
+    	//e:　ｅｌｅｍｅｎｔ
     	$(".selectItemCat").each(function(i,e){
     		var _ele = $(e);
     		if(data && data.cid){
@@ -104,6 +106,8 @@ var TT = TAOTAO = {
     		}else{
     			_ele.after("<span style='margin-left:10px;'></span>");
     		}
+    		
+    		//先解除后绑定的作用是为了： 只保留一个点击事件
     		_ele.unbind('click').click(function(){
     			$("<div>").css({padding:"5px"}).html("<ul>")
     			.window({
@@ -115,9 +119,11 @@ var TT = TAOTAO = {
     			    title:'选择类目',
     			    onOpen : function(){
     			    	var _win = this;
+    			    	//$("ul",_win) 表示在_win的范围里查找ul
     			    	$("ul",_win).tree({
-    			    		url:'/rest/item/cat/list',
+    			    		url:'/rest/item/cat',
     			    		animate:true,
+    			    		method:"GET",
     			    		onClick : function(node){
     			    			if($(this).tree("isLeaf",node.target)){
     			    				// 填写到cid中
