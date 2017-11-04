@@ -131,6 +131,8 @@ var TT = TAOTAO = {
     			    				_ele.next().text(node.text).attr("cid",node.id);
     			    				$(_win).window('close');
     			    				if(data && data.fun){
+    			    					//执行传入的方法
+    			    					//参数 ： 第一个参数一般固定为this,从第二个参数开始，是定义方法中的参数 
     			    					data.fun.call(this,node);
     			    				}
     			    			}
