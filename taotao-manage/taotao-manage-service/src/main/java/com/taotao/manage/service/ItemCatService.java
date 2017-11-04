@@ -11,8 +11,8 @@ import com.taotao.manage.pojo.ItemCat;
 
 @Service
 public class ItemCatService extends BaseService<ItemCat>{
-	@Autowired
-	private ItemCatMapper itemCatMapper;
+	/*@Autowired
+	private ItemCatMapper itemCatMapper;*/
 
 	/*public List<ItemCat> querItemCatListByParentId(long pid) {
 		ItemCat record = new ItemCat();
@@ -22,8 +22,8 @@ public class ItemCatService extends BaseService<ItemCat>{
 	
 	
 
-	@Override
+	/*@Override
 	public Mapper<ItemCat> getMapper() {
 		return this.itemCatMapper;
-	}
+	}*/
 }
