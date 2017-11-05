@@ -22,9 +22,9 @@ Date.prototype.format = function(format){
 var TT = TAOTAO = {
 	// 编辑器参数
 	kingEditorParams : {
-		filePostName  : "uploadFile",
-		uploadJson : '/rest/pic/upload',
-		dir : "image"
+		filePostName  : "uploadFile", //图片上传时表单提交时input 名称
+		uploadJson : '/rest/pic/upload', //图片上传的地址
+		dir : "image" //图片类型 
 	},
 	// 格式化时间
 	formatDateTime : function(val,row){
@@ -80,7 +80,7 @@ var TT = TAOTAO = {
         		KindEditor.editor(TT.kingEditorParams).loadPlugin('multiimage',function(){
         			var editor = this;
         			editor.plugin.multiImageDialog({
-						clickFn : function(urlList) {
+						clickFn : function(urlList) {    //点击"全部插入"时调用
 							var imgArray = [];
 							KindEditor.each(urlList, function(i, data) {
 								imgArray.push(data.url);
