@@ -1,6 +1,8 @@
 package com.taotao.manage.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import com.taotao.manage.service.ItemService;
 @Controller
 @RequestMapping("item")
 public class ItemController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 	
 	@Autowired
 	private ItemService itemService;
@@ -24,6 +27,10 @@ public class ItemController {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> saveItem(Item item, @RequestParam("desc") String desc) {
 		try {
+			if(LOGGER.isInfoEnabled()) {
+				LOGGER.info("新增商品, item = {}, desc = {}",item,desc);
+			}
+			
 			if(StringUtils.isEmpty(item.getTitle())) {
 				//参数有误,400
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -32,13 +39,20 @@ public class ItemController {
 			//保存商品
 			Boolean bool = this.itemService.saveItem(item, desc);
 			if(!bool) {
+				if(LOGGER.isInfoEnabled()) {
+					LOGGER.info("新增商品失败, item = {}",item);
+				}
+				
+				//保存失败
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			}
+			if(LOGGER.isInfoEnabled()) {
+				LOGGER.info("新增商品成功, itemId = {}",item.getId());
 			}
 			
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("新增商品出错! item= " + item, e);
 		}
 		
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
