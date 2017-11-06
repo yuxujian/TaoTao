@@ -40,8 +40,15 @@ public class PicUploadController {
 
 	// 允许上传的格式
 	private static final String[] IMAGE_TYPE = new String[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
-
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	
+	/**
+	 * produces : 指定响应类型 , TEXT_PLAIN_VALUE = 文本类型
+	 * @param uploadFile
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/upload", method = RequestMethod.POST , produces = MediaType.TEXT_PLAIN_VALUE)
 	@ResponseBody
 	public String upload(@RequestParam("uploadFile") MultipartFile uploadFile , HttpServletResponse response) throws Exception {
 
@@ -95,8 +102,8 @@ public class PicUploadController {
 			// 不合法，将磁盘上的文件删除
 			newFile.delete();
 		}
-
-		response.setContentType(MediaType.TEXT_HTML_VALUE);
+		
+		//将java对象试序列化成json字符串
 		return mapper.writeValueAsString(fileUploadResult);
 	}
 
