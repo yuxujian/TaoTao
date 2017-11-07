@@ -19,7 +19,7 @@ public class ItemDescController {
 	
 	
 	/**
-	 * 根据商品id查询商品描述数据 
+	 * 根据商品id查询商品描述数据 (编辑商品,并通过id查询商品作回显)
 	 * @param itemId
 	 * @return
 	 */

@@ -114,6 +114,9 @@
 			   },
 			   500:function() {
 				   $.messager.alert('提示','修改商品失败!');
+			   },
+			   400:function() {
+				   $.messager.alert('提示','参数有误,请检查后提交');
 			   }
 		   }
 		});

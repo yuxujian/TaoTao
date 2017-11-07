@@ -48,4 +48,15 @@ public class ItemService extends BaseService<Item>{
 		return new EasyUIResult(pageInfo.getTotal(), pageInfo.getList());
 	}
 
+	public Boolean updateItem(Item item, String desc) {
+		item.setStatus(null);//强制设置状态不能被修改
+		Integer count1 = super.updateSelective(item);
+		
+		ItemDesc itemDesc = new ItemDesc();
+		itemDesc.setItemId(item.getId());
+		itemDesc.setItemDesc(desc);
+		Integer count2 = this.itemDescService.updateSelective(itemDesc);
+		return count1.intValue() == 1 && count2.intValue() == 1;
+	}
+
 }
