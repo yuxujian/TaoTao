@@ -1,13 +1,23 @@
 package com.taotao.manage.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.abel533.entity.Example;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.taotao.common.bean.EasyUIResult;
+import com.taotao.manage.mapper.ItemMapper;
 import com.taotao.manage.pojo.Item;
 import com.taotao.manage.pojo.ItemDesc;
 
 @Service
 public class ItemService extends BaseService<Item>{
+	@Autowired
+	private ItemMapper itemMapper;
+	
 	@Autowired
 	private ItemDescService itemDescService;
 	
@@ -24,6 +34,18 @@ public class ItemService extends BaseService<Item>{
 		Integer count2 = this.itemDescService.save(itemDesc);
 		
 		return count1.intValue() == 1 && count2.intValue() == 1;
+	}
+
+	public EasyUIResult queryItemList(Integer page, Integer rows) {
+		//设置分页参数 
+		PageHelper.startPage(page,rows);
+		
+		Example example = new Example(Item.class);
+		//按照创建时间排序 
+		example.setOrderByClause("created DESC");
+		List<Item> items = this.itemMapper.selectByExample(example);
+		PageInfo<Item> pageInfo = new PageInfo<Item>(items);
+		return new EasyUIResult(pageInfo.getTotal(), pageInfo.getList());
 	}
 
 }
