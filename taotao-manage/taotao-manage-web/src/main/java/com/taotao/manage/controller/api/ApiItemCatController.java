@@ -20,11 +20,13 @@ public class ApiItemCatController {
 	private ItemCatService itemCatService;
 	
 	private static final ObjectMapper MAPPER = new ObjectMapper();
+	
+	
 	/**
 	 * 对外提供接口服务，查询所有类目数据 
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.GET)
+	/*@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<String> queryItemCatList(@RequestParam(value="callback", required = false) String callback) {
 		try {
 			ItemCatResult itemCatResult = this.itemCatService.queryAllToTree();
@@ -35,6 +37,24 @@ public class ApiItemCatController {
 			return ResponseEntity.ok(callback + "(" + json + ");");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+				
+	}*/
+	
+	/**
+	 * 对外提供接口服务，查询所有类目数据 (自定义 CallbackMappingJackson2HttpMessageConverter类,根据URL里是否有Callback这个变量,如果有则使用jsonP返回数据[也就是解决跨域问题] )
+	 * 换句话说,在spring/taotao-manage-servlet.xml里配置自定义CallbackMappingJackson2HttpMessageConverter类后,就能支持JsonP,也就实现跨域, 只要$.ajax里 dataType:jsonp即可
+	 * @param callback
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<ItemCatResult> queryItemCatList(@RequestParam(value="callback", required = false) String callback) {
+		try {
+			ItemCatResult itemCatResult = this.itemCatService.queryAllToTree();
+				return ResponseEntity.ok(itemCatResult);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
