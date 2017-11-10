@@ -1,1 +1,6 @@
 /target/
+/.settings/
+.gitignore
+.classpath
+.project
+/taotao-manage-web/src/main/resources/jdbc.properties
