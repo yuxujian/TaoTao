@@ -19,7 +19,7 @@ public class ApiConterntController {
 	
 	
 	/**
-	 * 根据内容分类id查询分类列表
+	 * 根据内容分类id查询分类列表.
 	 * @param categoryId
 	 * @param page
 	 * @param rows
