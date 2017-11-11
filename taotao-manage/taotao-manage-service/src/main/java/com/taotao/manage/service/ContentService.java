@@ -16,7 +16,7 @@ public class ContentService extends BaseService<Content>{
 	
 	@Autowired
 	private ContentMapper contentMapper;
-	
+	//ss
 	public EasyUIResult queryListByCategoryId(Long categoryId, Integer page, Integer rows) {
 		PageHelper.startPage(page, rows);
 		List<Content> list = this.contentMapper.queryContentList(categoryId);
