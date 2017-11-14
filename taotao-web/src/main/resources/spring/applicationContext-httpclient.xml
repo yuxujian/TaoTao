@@ -54,7 +54,7 @@ public class HttpConnectManager {
 		<property name="maxTotal" value="${http.maxTotal}"/>
 		
 		<!-- 设置每个主机地址的并发数 -->
-		<property name="http.defaultMaxRoute" value="${http.defaultMaxRoute}"></property>
+		<property name="defaultMaxPerRoute" value="${http.defaultMaxPerRoute}"></property>
 	</bean>
 	
 	<!-- HttpClient对象的构建器 -->

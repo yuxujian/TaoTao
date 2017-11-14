@@ -147,15 +147,16 @@ public class ApiService implements BeanFactoryAware{
 	 * 第二步：通过BeanFactoryAware类重写setBeanFactory方法，从而得到beanFactory
 	 * 第三步： 通过beanFactory得到Spring容器里定义CloseableHttpClient对象
 	 * */
-	private CloseableHttpClient getHttpclient() {
-		return this.beanFactory.getBean(CloseableHttpClient.class);
-	}
-
+	
 	@Override
-	public void setBeanFactory(BeanFactory arg0) throws BeansException {
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		//该方法是在Spring容器初始化时会调用该方法,传入beanFactory
 		
 		this.beanFactory = beanFactory;
+	}
+	
+	private CloseableHttpClient getHttpclient() {
+		return this.beanFactory.getBean(CloseableHttpClient.class);
 	}
 	
 }

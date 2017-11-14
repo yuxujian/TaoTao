@@ -5,24 +5,19 @@ import org.apache.http.conn.HttpClientConnectionManager;
 public class IdleConnectionEvictor extends Thread {
 
     private final HttpClientConnectionManager connMgr;
-    
-    private Integer waitTime;
 
     private volatile boolean shutdown;
 
     public IdleConnectionEvictor(HttpClientConnectionManager connMgr) {
         this.connMgr = connMgr;
-        
-        //启动当前线程
-        this.start();
     }
 
     @Override
     public void run() {
-        try { 
+        try {
             while (!shutdown) {
                 synchronized (this) {
-                    wait(waitTime);
+                    wait(5000);
                     // 关闭失效的连接
                     connMgr.closeExpiredConnections();
                 }
@@ -32,9 +27,6 @@ public class IdleConnectionEvictor extends Thread {
         }
     }
 
-    /**
-     * 销毁释放资源
-     */
     public void shutdown() {
         shutdown = true;
         synchronized (this) {
@@ -42,3 +34,5 @@ public class IdleConnectionEvictor extends Thread {
         }
     }
 }
+
+
