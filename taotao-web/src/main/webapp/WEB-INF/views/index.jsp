@@ -189,7 +189,7 @@ pageConfig.DATA_MScroll =[
 <script>
 // 右上方广告位
 (function() {
-	var data = [
+	/*var data = [
 	            {
 	                "width": 310,
 	                "height": 70,
@@ -200,7 +200,9 @@ pageConfig.DATA_MScroll =[
 	                "heightB": 70,
 	                "srcB": "http://img14.360buyimg.com/da/jfs/t334/155/1756719493/14371/e367c503/5440ce6dNd056ce39.jpg"
 	            }
-	        ];
+	        ];*/
+	        
+	var data = ${indexAD2}
     var ad = pageConfig.FN_GetRandomData(data);
     ad = pageConfig.FN_GetCompatibleData(ad);
     document.write("<a href=\"" + ad.href + "\" target=\"_blank\"><img data-img=\"2\" src=\"" + ad.src + "\" width=\"" + ad.width + "\" height=\"" + ad.height + "\" alt=\"" + ad.alt + "\" /></a>");
