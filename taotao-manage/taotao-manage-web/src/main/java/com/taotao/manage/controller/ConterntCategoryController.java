@@ -20,7 +20,7 @@ public class ConterntCategoryController {
 	private ContentCategoryService contentCategoryService;
 	
 	/**
-	 * 根据父节点Id 查询内容分类列表 .
+	 * 根据父节点Id 查询内容分类列表 ...
 	 * @param pid
 	 * @return
 	 */
