@@ -44,6 +44,9 @@ public class ItemCatService extends BaseService<ItemCat>{
 	
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	
+	private static final String REDIS_KEY = "TAOTAO_MANAGE_ITEM_CAT_API"; //规则：项目名_模块名_业务名
+	
+	private static final Integer REDIS_TIME= 60 * 60 * 24 * 30 * 3;
 	/**
 	 * 全部查询 ，并且生成树状结构
 	 * @return
@@ -51,22 +54,18 @@ public class ItemCatService extends BaseService<ItemCat>{
 	public ItemCatResult queryAllToTree() {
 		ItemCatResult result = new ItemCatResult();
 		
-		//先从缓存Redis中命中，如果命中则返回， 没有命中继续查数据库
-		String key = "TAOTAO_MANAGE_ITEM_CAT_API"; //规则：项目名_模块名_业务名
-		String cacheData = this.redisService.get(key);
-		if(StringUtils.isNotEmpty(cacheData)) {
-			//命中 TODO
-			try {
+		
+		try {
+			//先从缓存Redis中命中，如果命中则返回， 没有命中继续查数据库
+			String cacheData = this.redisService.get(REDIS_KEY);
+			if(StringUtils.isNotEmpty(cacheData)) {
 				//把json字符转为对象
 				return MAPPER.readValue(cacheData, ItemCatResult.class);
-			} catch (JsonParseException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-		}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 		//全部查出 ，并且在内存中生成树形结构 
 		List<ItemCat> cats = super.queryAll();
@@ -121,9 +120,8 @@ public class ItemCatService extends BaseService<ItemCat>{
 		
 		try {
 			//将数据库查询结果集写入到缓存中
-			this.redisService.set(key, MAPPER.writeValueAsString(result), 60*60*24*30*3);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
+			this.redisService.set(REDIS_KEY, MAPPER.writeValueAsString(result), REDIS_TIME);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
