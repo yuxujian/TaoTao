@@ -1,4 +1,4 @@
-package com.taotao.manage.service;
+package com.taotao.common.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import redis.clients.jedis.ShardedJedisPool;
 @Service
 public class RedisService{
 	
-	@Autowired
+	@Autowired(required = false) //从Spring容器中查找 bean,找到就注入,打不到就忽略
 	private ShardedJedisPool shardedJedisPool;
 	
 	//其实我们<T>可以放在public class RedisService<T> {...}里，但是这样<T>的作用范围过大， 所以我们把它放在方法体里， 放在这里表示 作用范围只在execute里

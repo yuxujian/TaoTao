@@ -1,4 +1,4 @@
-package com.taotao.manage.service;
+package com.taotao.common.service;
 
 public interface Function<T,E> {
 	

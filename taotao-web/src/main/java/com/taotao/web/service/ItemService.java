@@ -1,13 +1,18 @@
 package com.taotao.web.service;
 
+import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.taotao.common.service.RedisService;
 import com.taotao.manage.pojo.ItemDesc;
 import com.taotao.manage.pojo.ItemParamItem;
 import com.taotao.web.bean.Item;
@@ -21,6 +26,12 @@ public class ItemService {
 	private String TAOTAO_MANAGE_URL;
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
+	
+	@Autowired
+	private RedisService redisService;
+	
+	private static final String REDIS_KEY = "TAOTAO_WEB_ITEM_DETAIL_";
+	private static final Integer REDIS_TIME = 60 * 60 * 24;
 
 	/**
 	 * 根据商品id查询商品数据
@@ -31,14 +42,34 @@ public class ItemService {
 	 * @return
 	 */
 	public Item queryById(Long itemId) {
+		
+		String key =  REDIS_KEY + itemId;
+		try {
+			String cacheData = this.redisService.get(key);
+			
+			if(StringUtils.isNotEmpty(cacheData)) {
+				return MAPPER.readValue(cacheData, Item.class);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
 		String url = TAOTAO_MANAGE_URL + "/rest/api/item/" + itemId;
-
+		
 		try {
 			String jsonData = this.apiService.doGet(url);
 			if (StringUtils.isEmpty(jsonData)) {
 				return null;
 			}
-
+			
+			try {
+				this.redisService.set(key, jsonData, REDIS_TIME);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			// 将json数据 反序列为Item对象
 			return MAPPER.readValue(jsonData, Item.class);
 

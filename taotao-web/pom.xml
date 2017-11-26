@@ -12,6 +12,13 @@
 	<packaging>war</packaging>
 
 	<dependencies>
+		<!-- Redis客户端 -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		
+		<!-- common -->
 		<dependency>
 			<groupId>com.taotao.common</groupId>
 			<artifactId>taotao-common</artifactId>
