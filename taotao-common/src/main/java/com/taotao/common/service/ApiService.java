@@ -1,7 +1,6 @@
-package com.taotao.web.service;
+package com.taotao.common.service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +23,12 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.taotao.web.httpclient.HttpResult;
+import com.taotao.common.httpclient.HttpResult;
 
 @Service
 public class ApiService implements BeanFactoryAware{
 
-	@Autowired
+	@Autowired(required = false)
 	private RequestConfig requestConfig;
 	
 	private BeanFactory beanFactory;

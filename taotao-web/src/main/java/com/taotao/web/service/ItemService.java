@@ -1,17 +1,14 @@
 package com.taotao.web.service;
 
-import java.io.IOException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.taotao.common.service.ApiService;
 import com.taotao.common.service.RedisService;
 import com.taotao.manage.pojo.ItemDesc;
 import com.taotao.manage.pojo.ItemParamItem;
@@ -30,7 +27,7 @@ public class ItemService {
 	@Autowired
 	private RedisService redisService;
 	
-	private static final String REDIS_KEY = "TAOTAO_WEB_ITEM_DETAIL_";
+	public static final String REDIS_KEY = "TAOTAO_WEB_ITEM_DETAIL_";
 	private static final Integer REDIS_TIME = 60 * 60 * 24;
 
 	/**
